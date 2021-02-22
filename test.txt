@@ -1,0 +1,78 @@
+admin@SRO-KEESARA# run show configuration | display set | no-more
+set version 15.1X49-D70.3
+set system host-name SRO-KEESARA
+set system time-zone Asia/Calcutta
+set system root-authentication encrypted-password "$5$FxErsjrm$5jRzf/6/oKIrsTHIR                                                                                        OROMG.w5a45VF0Hfz3NsIjU5d0"
+set system name-server 10.3.3.41
+set system name-server 10.3.3.42
+set system login user admin uid 2001
+set system login user admin class super-user
+set system login user admin authentication encrypted-password "$5$J4DEcSFu$8PUtU                                                                                        A2coSVQOgbNsGuLL.Xk3uAUvpb/VaZfy7dKKh6"
+set system services ssh
+set system services telnet
+set system services web-management https system-generated-certificate
+set system services web-management https interface ge-0/0/3.0
+set system services web-management https interface ge-0/0/2.0
+set system syslog user * any emergency
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set services rpm probe ISP-RAILTEL test testsvr target address 10.0.0.1
+set services rpm probe ISP-RAILTEL test testsvr probe-count 3
+set services rpm probe ISP-RAILTEL test testsvr probe-interval 3
+set services rpm probe ISP-RAILTEL test testsvr test-interval 1
+set services rpm probe ISP-RAILTEL test testsvr thresholds successive-loss 3
+set services rpm probe ISP-RAILTEL test testsvr thresholds total-loss 3
+set services rpm probe ISP-RAILTEL test testsvr destination-interface ge-0/0/0.0
+set services rpm probe ISP-RAILTEL test testsvr hardware-timestamp
+set services rpm probe ISP-RAILTEL test testsvr next-hop 172.40.174.193
+set services ip-monitoring policy Tracking match rpm-probe ISP-RAILTEL
+set security forwarding-options family mpls mode packet-based
+set interfaces ge-0/0/0 description " WAN-RAIlTel to SWAN "
+set interfaces ge-0/0/0 unit 0 family inet address 172.40.174.194/30
+set interfaces ge-0/0/1 description " ### SWAN_BSNL 12 mbps link #### "
+set interfaces ge-0/0/1 mtu 1500
+set interfaces ge-0/0/1 unit 0 family inet filter input ICMP_filter
+set interfaces ge-0/0/1 unit 0 family inet filter output ICMP_filter
+set interfaces ge-0/0/1 unit 0 family inet address 10.253.10.50/30
+set interfaces ge-0/0/2 description " #### SWAN_LAN ### "
+set interfaces ge-0/0/2 unit 0 family inet address 10.230.34.97/28
+set snmp description "SRO-KEESARA Router"
+set snmp location KEESARA
+set snmp contact KEESARA
+set snmp community IGRS-TS authorization read-only
+set snmp community IGRS-TS clients 10.230.100.3/24
+set snmp trap-group IGRS-TS version v2
+set snmp trap-group IGRS-TS categories authentication
+set snmp trap-group IGRS-TS categories chassis
+set snmp trap-group IGRS-TS categories link
+set snmp trap-group IGRS-TS categories remote-operations
+set snmp trap-group IGRS-TS categories routing
+set snmp trap-group IGRS-TS categories startup
+set snmp trap-group IGRS-TS categories rmon-alarm
+set snmp trap-group IGRS-TS categories vrrp-events
+set snmp trap-group IGRS-TS categories configuration
+set snmp trap-group IGRS-TS targets 10.230.100.3
+set snmp health-monitor interval 14400
+set snmp health-monitor rising-threshold 75
+set snmp health-monitor falling-threshold 74
+set routing-options static route 10.0.0.0/8 next-hop 10.253.10.49
+set protocols ospf area 0.0.0.100 interface ge-0/0/2.0 passive
+set protocols ospf area 0.0.0.100 interface ge-0/0/1.0 interface-type p2p
+set protocols lldp advertisement-interval 45
+set protocols lldp transmit-delay 2
+set protocols lldp hold-multiplier 5
+set protocols lldp interface all
+set firewall family inet filter ICMP_filter term 1 from source-address 10.10.0.1                                                                                        /32
+set firewall family inet filter ICMP_filter term 1 from source-address 10.253.63                                                                                        .225/32
+set firewall family inet filter ICMP_filter term 1 from protocol icmp
+set firewall family inet filter ICMP_filter term 1 then count counter_in
+set firewall family inet filter ICMP_filter term 1 then accept
+set firewall family inet filter ICMP_filter term 2 from destination-address 10.1                                                                                        0.0.1/32
+set firewall family inet filter ICMP_filter term 2 from destination-address 10.2                                                                                        53.63.225/32
+set firewall family inet filter ICMP_filter term 2 from protocol icmp
+set firewall family inet filter ICMP_filter term 2 then count counter_out
+set firewall family inet filter ICMP_filter term 2 then accept
+set firewall family inet filter ICMP_filter term default then accept
+
+
