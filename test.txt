@@ -5,6 +5,7 @@ set system time-zone Asia/Calcutta
 set system root-authentication encrypted-password "$5$FxErsjrm$5jRzf/6/oKIrsTHIR                                                                                        OROMG.w5a45VF0Hfz3NsIjU5d0"
 set system name-server 10.3.3.41
 set system name-server 10.3.3.42
+set system name-server 8.8.8.8
 set system login user admin uid 2001
 set system login user admin class super-user
 set system login user admin authentication encrypted-password "$5$J4DEcSFu$8PUtU                                                                                        A2coSVQOgbNsGuLL.Xk3uAUvpb/VaZfy7dKKh6"
